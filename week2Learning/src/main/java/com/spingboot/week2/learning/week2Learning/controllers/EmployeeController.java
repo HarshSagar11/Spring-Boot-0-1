@@ -2,6 +2,7 @@ package com.spingboot.week2.learning.week2Learning.controllers;
 
 import com.spingboot.week2.learning.week2Learning.dto.EmployeesDTO;
 import com.spingboot.week2.learning.week2Learning.services.EmployeeService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeesDTO> checkingPostRequest(@RequestBody EmployeesDTO inputEmployee){
+    public ResponseEntity<EmployeesDTO> checkingPostRequest(@RequestBody @Valid EmployeesDTO inputEmployee){
         return new ResponseEntity<>(employeeService.createEmployee(inputEmployee), HttpStatus.CREATED);
     }
 
