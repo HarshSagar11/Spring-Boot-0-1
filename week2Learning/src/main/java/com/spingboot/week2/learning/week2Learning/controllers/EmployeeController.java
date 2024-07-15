@@ -1,6 +1,7 @@
 package com.spingboot.week2.learning.week2Learning.controllers;
 
 import com.spingboot.week2.learning.week2Learning.dto.EmployeesDTO;
+import com.spingboot.week2.learning.week2Learning.exceptions.ResourceNotFoundException;
 import com.spingboot.week2.learning.week2Learning.services.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -29,7 +31,8 @@ public class EmployeeController {
     @GetMapping(path = "/{employeeId}")
     public ResponseEntity<EmployeesDTO> getEmployeeById(@PathVariable(name = "employeeId") long id){
         Optional<EmployeesDTO> employeesDTO = employeeService.getEmployeeById(id);
-        return employeesDTO.map(employeesDTO1 -> ResponseEntity.ok(employeesDTO1)).orElse(ResponseEntity.notFound().build());
+        return employeesDTO.map(employeesDTO1 -> ResponseEntity.ok(employeesDTO1))
+                .orElseThrow(()-> new ResourceNotFoundException("Employee Not found with id: "+id));
     }
 
     @GetMapping
