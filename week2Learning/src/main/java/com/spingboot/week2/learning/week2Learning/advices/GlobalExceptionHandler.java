@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
                 .stream()
                 .map(error -> error.getDefaultMessage())
                 .collect (Collectors.toList());
-        
+
         ApiError apiError = ApiError.builder()
                 .status(HttpStatus.BAD_REQUEST)
                 .message("Input validation failed")
