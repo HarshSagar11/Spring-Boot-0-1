@@ -22,7 +22,7 @@ public class AdmissionRecordEntity {
     @Column(nullable = false)
     private BigDecimal fees;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "student_id")
     private StudentEntity student;
 }

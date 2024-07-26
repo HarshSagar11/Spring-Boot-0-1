@@ -1,9 +1,11 @@
 package com.example.collegeManagement.CollegeManagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Builder
 @Entity
@@ -21,7 +23,7 @@ public class SubjectEntity {
     @Column(nullable = false)
     private String title;
 
-    @ManyToOne( cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "teaching_professor_id",
             referencedColumnName = "id"
@@ -29,6 +31,19 @@ public class SubjectEntity {
     private ProfessorEntity professor;
 
     @ManyToMany(mappedBy = "subjects")
+    @JsonIgnore
     private List<StudentEntity> students;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubjectEntity that = (SubjectEntity) o;
+        return Objects.equals(getId(), that.getId()) && Objects.equals(getTitle(), that.getTitle());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getTitle());
+    }
 }
