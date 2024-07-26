@@ -1,6 +1,7 @@
 package com.example.collegeManagement.CollegeManagement.controllers;
 
 import com.example.collegeManagement.CollegeManagement.entities.ProfessorEntity;
+import com.example.collegeManagement.CollegeManagement.entities.StudentEntity;
 import com.example.collegeManagement.CollegeManagement.services.ProfessorService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,11 @@ public class ProfessorController {
     @GetMapping
     public List<ProfessorEntity> getAllProfessor(){
         return professorService.getAllProfessor();
+    }
+
+    @GetMapping(path = "/{professor_id}/students")
+    public List<StudentEntity> getStudentsOfProfessor(@PathVariable Long professor_id){
+        return professorService.getStudentsOfProfessor(professor_id);
     }
 
     @PostMapping
