@@ -15,7 +15,7 @@ public class RideDto {
     private Point pickupLocation;
     private  Point dropOffLocation;
     private LocalDateTime createdTime;
-    private Rider rider;
+    private RiderDto rider;
     private Driver driver;
     private RideStatus rideRequestStatus;
     private PaymentMethod paymentMethod;

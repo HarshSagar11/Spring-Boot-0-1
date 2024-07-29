@@ -1,14 +1,20 @@
 package com.example.cabBooking.CabBookingApp.entities;
 
+import com.example.cabBooking.CabBookingApp.dto.DriverDto;
+import com.example.cabBooking.CabBookingApp.dto.RiderDto;
 import com.example.cabBooking.CabBookingApp.entities.enums.PaymentMethod;
 import com.example.cabBooking.CabBookingApp.entities.enums.RideRequestStatus;
 import com.example.cabBooking.CabBookingApp.entities.enums.RideStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
-
+@Entity
+@Getter
+@Setter
 public class Ride {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

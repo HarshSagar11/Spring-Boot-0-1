@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class RIdeRequest {
+public class RideRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
