@@ -28,6 +28,8 @@ public class RideRequest {
     @CreationTimestamp
     private LocalDateTime requestedTime;
 
+    private double fare;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Rider rider;
 

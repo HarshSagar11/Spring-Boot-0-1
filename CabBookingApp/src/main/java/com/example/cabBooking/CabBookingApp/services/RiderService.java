@@ -4,13 +4,16 @@ import com.example.cabBooking.CabBookingApp.dto.DriverDto;
 import com.example.cabBooking.CabBookingApp.dto.RideDto;
 import com.example.cabBooking.CabBookingApp.dto.RideRequestDto;
 import com.example.cabBooking.CabBookingApp.dto.RiderDto;
+import com.example.cabBooking.CabBookingApp.entities.Rider;
+import com.example.cabBooking.CabBookingApp.entities.User;
 
 import java.util.List;
 
 public interface RiderService {
-    RiderDto requestRide(RideRequestDto rideRequestDto);
+    RideRequestDto requestRide(RideRequestDto rideRequestDto);
     RideDto cancelRide(Long rideId);
     DriverDto rateDriver(Long rideId,Double rating);
     RiderDto getMyProfile();
     List<RideDto> getAllMyRides();
+    Rider createNewRider(User user);
 }
