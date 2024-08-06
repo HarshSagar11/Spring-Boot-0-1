@@ -13,6 +13,7 @@ import com.example.cabBooking.CabBookingApp.services.RiderService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional
     public UserDto signup(SignupDto signupDto) {
         User newUser =  userRepository.findByEmail(signupDto.getEmail()).orElse(null);
         if(newUser != null){
@@ -40,7 +42,7 @@ public class AuthServiceImpl implements AuthService {
         User savedUser = userRepository.save(user);
 
         // create user related entities
-        riderService.createNewRider(savedUser);
+        Rider rider = riderService.createNewRider(savedUser);
         // TODO add wallet related service
 
         return modelMapper.map(savedUser, UserDto.class);
