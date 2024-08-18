@@ -1,13 +1,19 @@
 package com.week5Learning.Security.W5Learning.entities;
 
 import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class UserEntity implements UserDetails {
 
     @Id
