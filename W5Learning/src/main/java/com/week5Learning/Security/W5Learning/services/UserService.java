@@ -47,4 +47,11 @@ public class UserService implements UserDetailsService {
         return modelMapper.map(savedEntity,UserDto.class);
     }
 
+    public UserEntity getUserByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
+    }
+
+    public UserEntity save(UserEntity newUser) {
+        return userRepository.save(newUser);
+    }
 }

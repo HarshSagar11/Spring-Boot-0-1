@@ -10,6 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,9 @@ import java.util.Arrays;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
+    @Value("{deploy.env}")
+    private String deployEnv;
 
     private final UserService userService;
     private final AuthService authService;
@@ -40,6 +44,7 @@ public class AuthController {
 
         Cookie cookie = new Cookie("refreshToken",loginResponseDto.getRefreshToken());
         cookie.setHttpOnly(true);
+        cookie.setSecure("production".equals(deployEnv));
         response.addCookie(cookie);
 
         return ResponseEntity.ok(loginResponseDto);
