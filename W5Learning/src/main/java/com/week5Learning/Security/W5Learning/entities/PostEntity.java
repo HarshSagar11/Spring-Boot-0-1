@@ -20,4 +20,7 @@ public class PostEntity {
     private String title;
     private String description;
 
+    @ManyToMany
+    private UserEntity author;
+
 }
