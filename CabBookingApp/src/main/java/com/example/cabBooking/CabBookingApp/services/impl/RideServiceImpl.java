@@ -4,6 +4,7 @@ import com.example.cabBooking.CabBookingApp.dto.RideRequestDto;
 import com.example.cabBooking.CabBookingApp.entities.Driver;
 import com.example.cabBooking.CabBookingApp.entities.Ride;
 import com.example.cabBooking.CabBookingApp.entities.RideRequest;
+import com.example.cabBooking.CabBookingApp.entities.Rider;
 import com.example.cabBooking.CabBookingApp.entities.enums.RideRequestStatus;
 import com.example.cabBooking.CabBookingApp.entities.enums.RideStatus;
 import com.example.cabBooking.CabBookingApp.exceptions.ResourceNotFoundException;
@@ -33,11 +34,6 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public void matchWithDrivers(RideRequestDto rideRequestDto) {
-
-    }
-
-    @Override
     public Ride createNewRide(RideRequest rideRequest, Driver driver) {
         rideRequest.setRideRequestStatus(RideRequestStatus.CONFIRMED);
         Ride ride = modelMapper.map(rideRequest,Ride.class);
@@ -58,13 +54,13 @@ public class RideServiceImpl implements RideService {
     }
 
     @Override
-    public Page<Ride> getAllRidesOfRider(Long riderId, PageRequest pageRequest) {
-        return null;
+    public Page<Ride> getAllRidesOfRider(Rider rider, PageRequest pageRequest) {
+        return rideRepository.findByRider(rider,pageRequest);
     }
 
     @Override
-    public Page<Ride> getAllRidesOfDriver(Long driverId, PageRequest pageRequest) {
-        return null;
+    public Page<Ride> getAllRidesOfDriver(Driver driver, PageRequest pageRequest) {
+        return rideRepository.findByDriver(driver,pageRequest);
     }
 
     private String getOtp(){

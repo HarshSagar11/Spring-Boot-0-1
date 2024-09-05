@@ -10,6 +10,7 @@ import com.example.cabBooking.CabBookingApp.exceptions.RuntimeConflictException;
 import com.example.cabBooking.CabBookingApp.repositories.UserRepository;
 import com.example.cabBooking.CabBookingApp.services.AuthService;
 import com.example.cabBooking.CabBookingApp.services.RiderService;
+import com.example.cabBooking.CabBookingApp.services.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class AuthServiceImpl implements AuthService {
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final RiderService riderService;
+    private final WalletService walletService;
 
     @Override
     public String login(String email, String Password) {
@@ -43,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 
         // create user related entities
         Rider rider = riderService.createNewRider(savedUser);
-        // TODO add wallet related service
+        walletService.createNewWallet(savedUser);
 
         return modelMapper.map(savedUser, UserDto.class);
     }

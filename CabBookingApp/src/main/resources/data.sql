@@ -124,7 +124,7 @@ INSERT INTO user_roles (user_id, roles) VALUES
 INSERT INTO rider (id, user_id, rating) VALUES
 (1, 1, 4.9);
 
-INSERT INTO driver (id, user_id, rating, available, current_location) VALUES
+INSERT INTO driver (id, user_id, rating, available,  current_location) VALUES
 (2, 2, 4.7, true, ST_GeomFromText('POINT(77.1025 28.7041)', 4326)),
 (3, 3, 4.8, true, ST_GeomFromText('POINT(77.2167 28.6667)', 4326)),
 (4, 4, 4.6, true, ST_GeomFromText('POINT(77.2273 28.6353)', 4326)),

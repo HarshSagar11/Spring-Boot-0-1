@@ -3,8 +3,7 @@ package com.example.cabBooking.CabBookingApp.entities;
 import com.example.cabBooking.CabBookingApp.entities.enums.PaymentMethod;
 import com.example.cabBooking.CabBookingApp.entities.enums.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -12,6 +11,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Payment {
 
     @Id
@@ -26,6 +28,8 @@ public class Payment {
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
+
+    private Double amount;
 
     @CreationTimestamp
     private LocalDateTime paymentTime;
