@@ -29,6 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
         Payment payment = Payment.builder()
                 .paymentMethod(ride.getPaymentMethod())
                 .amount(ride.getFare())
+                .ride(ride)
                 .paymentStatus(PaymentStatus.PENDING)
                 .build();
         return paymentRepository.save(payment);
