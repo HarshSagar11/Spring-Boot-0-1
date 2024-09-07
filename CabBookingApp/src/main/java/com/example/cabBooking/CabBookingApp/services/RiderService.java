@@ -14,7 +14,7 @@ import java.util.List;
 public interface RiderService {
     RideRequestDto requestRide(RideRequestDto rideRequestDto);
     RideDto cancelRide(Long rideId);
-    DriverDto rateDriver(Long rideId,Double rating);
+    DriverDto rateDriver(Long rideId,Integer rating);
     RiderDto getMyProfile();
     Page<RideDto> getAllMyRides(PageRequest pageRequest);
     Rider createNewRider(User user);

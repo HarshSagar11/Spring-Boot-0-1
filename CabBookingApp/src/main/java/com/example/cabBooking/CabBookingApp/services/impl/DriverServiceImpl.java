@@ -10,10 +10,7 @@ import com.example.cabBooking.CabBookingApp.entities.enums.RideRequestStatus;
 import com.example.cabBooking.CabBookingApp.entities.enums.RideStatus;
 import com.example.cabBooking.CabBookingApp.exceptions.ResourceNotFoundException;
 import com.example.cabBooking.CabBookingApp.repositories.DriverRepository;
-import com.example.cabBooking.CabBookingApp.services.DriverService;
-import com.example.cabBooking.CabBookingApp.services.PaymentService;
-import com.example.cabBooking.CabBookingApp.services.RideRequestService;
-import com.example.cabBooking.CabBookingApp.services.RideService;
+import com.example.cabBooking.CabBookingApp.services.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -32,6 +29,7 @@ public class DriverServiceImpl implements DriverService {
     private final RideService rideService;
     private final ModelMapper modelMapper;
     private final PaymentService paymentService;
+    private final RatingService ratingService;
 
     @Override
     @Transactional
@@ -84,6 +82,7 @@ public class DriverServiceImpl implements DriverService {
         Ride savedRide = rideService.updateRideStatus(ride,RideStatus.ONGOING);
 
         paymentService.createNewPayment(savedRide);
+        ratingService.createNewRating(ride);
 
         return modelMapper.map(savedRide, RideDto.class);
 
@@ -109,8 +108,17 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public RiderDto rateRider(Long rideId, Double rating) {
-        return null;
+    public RiderDto rateRider(Long rideId, Integer rating) {
+        Ride ride = rideService.getRideById(rideId);
+
+        Driver driver = getcurrentDriver();
+        if(driver != ride.getDriver()){
+            throw new RuntimeException("Driver is not the owner of this ride.");
+        }
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("Ride Status is not ended hence cannot start rating, status:" + ride.getRideStatus());
+        }
+        return ratingService.rateRider(ride,rating);
     }
 
     @Override
@@ -137,5 +145,10 @@ public class DriverServiceImpl implements DriverService {
         driver.setAvailable(available);
         driverRepository.save(driver);
         return driver;
+    }
+
+    @Override
+    public Driver createNewDriver(Driver driver) {
+        return  driverRepository.save(driver);
     }
 }

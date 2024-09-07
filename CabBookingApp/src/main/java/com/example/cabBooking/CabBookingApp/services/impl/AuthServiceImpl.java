@@ -3,12 +3,15 @@ package com.example.cabBooking.CabBookingApp.services.impl;
 import com.example.cabBooking.CabBookingApp.dto.DriverDto;
 import com.example.cabBooking.CabBookingApp.dto.SignupDto;
 import com.example.cabBooking.CabBookingApp.dto.UserDto;
+import com.example.cabBooking.CabBookingApp.entities.Driver;
 import com.example.cabBooking.CabBookingApp.entities.Rider;
 import com.example.cabBooking.CabBookingApp.entities.User;
 import com.example.cabBooking.CabBookingApp.entities.enums.Role;
+import com.example.cabBooking.CabBookingApp.exceptions.ResourceNotFoundException;
 import com.example.cabBooking.CabBookingApp.exceptions.RuntimeConflictException;
 import com.example.cabBooking.CabBookingApp.repositories.UserRepository;
 import com.example.cabBooking.CabBookingApp.services.AuthService;
+import com.example.cabBooking.CabBookingApp.services.DriverService;
 import com.example.cabBooking.CabBookingApp.services.RiderService;
 import com.example.cabBooking.CabBookingApp.services.WalletService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
+import static com.example.cabBooking.CabBookingApp.entities.enums.Role.DRIVER;
+
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
@@ -26,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final RiderService riderService;
     private final WalletService walletService;
+    private final DriverService driverService;
 
     @Override
     public String login(String email, String Password) {
@@ -51,7 +57,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public DriverDto onBoardDriver(Long userId) {
-        return null;
+    public DriverDto onBoardDriver(Long userId,String vehicleId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(()-> new ResourceNotFoundException("User not found with id : "+ userId));
+        if(user.getRoles().contains(DRIVER))
+            throw new RuntimeException("User with id : " + userId +  "is Already a driver.");
+
+        Driver createdDriver = Driver.builder()
+                .user(user)
+                .rating(0.0)
+                .vehicleId(vehicleId)
+                .available(true)
+                .build();
+        user.getRoles().add(DRIVER);
+        userRepository.save(user);
+        Driver savedDriver = driverService.createNewDriver(createdDriver);
+        return modelMapper.map(savedDriver, DriverDto.class);
     }
 }

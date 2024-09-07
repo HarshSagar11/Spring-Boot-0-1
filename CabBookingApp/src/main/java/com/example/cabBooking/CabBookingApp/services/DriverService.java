@@ -12,9 +12,10 @@ public interface DriverService {
     RideDto cancelRide(Long rideId);
     RideDto startRide(Long rideId, String otp);
     RideDto endRide(Long rideId);
-    RiderDto rateRider(Long rideId,Double rating);
+    RiderDto rateRider(Long rideId,Integer rating);
     DriverDto getMyProfile();
     Page<RideDto> getAllMyRides(PageRequest pageRequest);
     Driver getcurrentDriver();
     Driver updateDriverAvailability(Driver driver, boolean available);
+    Driver createNewDriver(Driver driver);
 }

@@ -11,6 +11,7 @@ import com.example.cabBooking.CabBookingApp.exceptions.ResourceNotFoundException
 import com.example.cabBooking.CabBookingApp.repositories.RideRequestRepository;
 import com.example.cabBooking.CabBookingApp.repositories.RiderRepository;
 import com.example.cabBooking.CabBookingApp.services.DriverService;
+import com.example.cabBooking.CabBookingApp.services.RatingService;
 import com.example.cabBooking.CabBookingApp.services.RideService;
 import com.example.cabBooking.CabBookingApp.services.RiderService;
 import com.example.cabBooking.CabBookingApp.strategies.RideStrategyManager;
@@ -35,6 +36,7 @@ public class RiderServiceImpl implements RiderService {
     private final RiderRepository riderRepository;
     private final RideService rideService;
     private final DriverService driverService;
+    private final RatingService ratingService;
 
     @Override
     @Transactional
@@ -70,8 +72,17 @@ public class RiderServiceImpl implements RiderService {
     }
 
     @Override
-    public DriverDto rateDriver(Long rideId, Double rating) {
-        return null;
+    public DriverDto rateDriver(Long rideId, Integer rating) {
+        Ride ride = rideService.getRideById(rideId);
+
+        Rider rider = getCurrentRider();
+        if(rider != ride.getRider()){
+            throw new RuntimeException("Rider is not the owner of this ride.");
+        }
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("Ride Status is not ended hence cannot start rating, status:" + ride.getRideStatus());
+        }
+        return ratingService.rateDriver(ride,rating);
     }
 
     @Override

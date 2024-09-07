@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
