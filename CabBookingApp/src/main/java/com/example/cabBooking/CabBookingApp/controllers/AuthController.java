@@ -1,9 +1,6 @@
 package com.example.cabBooking.CabBookingApp.controllers;
 
-import com.example.cabBooking.CabBookingApp.dto.DriverDto;
-import com.example.cabBooking.CabBookingApp.dto.OnboardDriverDto;
-import com.example.cabBooking.CabBookingApp.dto.SignupDto;
-import com.example.cabBooking.CabBookingApp.dto.UserDto;
+import com.example.cabBooking.CabBookingApp.dto.*;
 import com.example.cabBooking.CabBookingApp.services.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,4 +24,9 @@ public class AuthController {
         return new ResponseEntity<>(authService.onBoardDriver(userId, onboardDriverDto.getVehicleId()),HttpStatus.CREATED);
     }
 
+    @PostMapping("/login")
+    ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto){
+        String tokens[]= authService.login(loginRequestDto.getEmail(), loginRequestDto.getPassword());
+        return ResponseEntity.ok(new LoginResponseDto(tokens[0]));
+    }
 }
