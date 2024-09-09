@@ -8,4 +8,6 @@ public interface AuthService {
     String[] login(String email, String Password);
     UserDto signup(SignupDto signupDto);
     DriverDto onBoardDriver(Long userId,String vehicleId);
+
+    String refreshToken(String refreshToken);
 }
